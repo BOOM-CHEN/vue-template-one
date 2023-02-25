@@ -1,19 +1,58 @@
-# vue-cli-test-2
+# 路由3.x创建模块
+`router/index.js`
+```js
+//1.导入Vue的构造函数
+import Vue from 'vue'
+//2.导入3.x路由的构造函数
+import VueRouter from 'vue-router'
+//导入需要使用路由切换的组件,@代表src这一目录
+import Home from '@/components/Home.vue'
+import Movie from '@/components/Movie.vue'
+//调用Vue.use()函数,把路由配置为Vue的插件
+Vue.use(VueRouter)
+//创建路由对象
+const router = new VueRouter({
+    routers:[//声明路由规则
 
-## Project setup
-```
-npm install
-```
+        {
+            path:'/',redirect:'/home'
+        },{
+            path:'/home',component:Home
+        },{
+            path:'/movie',component:Movie
+        },
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+    ],
+})
 
-### Compiles and minifies for production
+//向外共享路由对象
+export default router
 ```
-npm run build
-```
+# 路由4.x创建模块
+`router/index.js`
+```js
+import {createRouter , createWebHashHistory} from 'vue-router'
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+import Home from '@/components/Home.vue'
+import Movie from '@/components/Movie.vue'
+
+const router = createRouter({
+    history:createWebHashHistory(),//指定通过hash管理路由的切换
+    routes:[    //创建路由规则我
+        {
+            path:'/home',component : Home
+        },
+        {
+            path:'/movie',component : Movie
+        }
+    ]
+});
+export default router
+```
+`main.js`
+```js
+import Vue, {createApp} from 'vue'
+import App from './App.vue'
+import router from './router/index'
+createApp(App).use(router).mount('#app')
+```
