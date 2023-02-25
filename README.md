@@ -56,3 +56,37 @@ import App from './App.vue'
 import router from './router/index'
 createApp(App).use(router).mount('#app')
 ```
+# Element导入
+## 全部导入
+```js
+// main.ts
+import { createApp } from 'vue'
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+import App from './App.vue'
+
+const app = createApp(App)
+
+app.use(ElementPlus)
+app.mount('#app')
+```
+## 按需导入
+`npm install -D unplugin-vue-components unplugin-auto-import`
+```js
+// webpack.config.js
+const AutoImport = require('unplugin-auto-import/webpack')
+const Components = require('unplugin-vue-components/webpack')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+
+module.exports = {
+    // ...
+    plugins: [
+        AutoImport({
+            resolvers: [ElementPlusResolver()],
+        }),
+        Components({
+            resolvers: [ElementPlusResolver()],
+        }),
+    ],
+}
+```
